@@ -6,7 +6,6 @@ const config = {
 
 export default async function getData(req, res) {
   let { statType, platform, platformUID } = req.query;
-  console.log(statType, platform, platformUID);
   let response;
   if ( statType === 'career' ) {
     response = await fetch(`https://public-api.tracker.gg/v2/apex/standard/profile/${platform}/${platformUID}`, config)
@@ -29,6 +28,5 @@ export default async function getData(req, res) {
         return result.json()
       });
   }
-  console.log(response);
   res.status(200).json(response);
 }
