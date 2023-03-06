@@ -1,16 +1,9 @@
 import { useState, useEffect } from 'react';
 
-export default function Search() {
+export default function Search({ setParameters, getData }) {
   const [platform, setPlatform] = useState('origin');
   const [placeholder, setPlaceholder] = useState('Origin');
   const [platformUID, setPlatformUID] = useState('');
-
-  const getData = async (platform, platformUID) => {
-    let response  = await fetch(`/api/search/${platform}/${platformUID}`)
-      .then(result => { return result.body })
-      .catch(err => console.log(err));
-    return response;
-  }
 
   const handleSelect = (e) => {
     e.preventDefault();
@@ -19,9 +12,10 @@ export default function Search() {
     setPlaceholder(e.nativeEvent.target[index].text);
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(getData(platform, platformUID));
+    let searchResults = await getData('search', platform, platformUID);
+    setParameters(platform, platformUID, searchResults);
   }
 
   return (
